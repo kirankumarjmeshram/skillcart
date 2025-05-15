@@ -1,47 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import ProgressTracker from '../components/ProgressTracker';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { Card, ProgressBar, Button, Spinner, Alert, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const LearnerDashboard = () => {
-  const [courses, setCourses] = useState([]);
-  const learnerId = 'learner123';  // Replace with actual learner ID
-  
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const learnerId = 'learner123'; // Replace with real logic
+
   useEffect(() => {
-    // Fetch the courses the learner is enrolled in
-    const fetchCourses = async () => {
+    const fetchProfile = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/learner/courses/${learnerId}`);
-        setCourses(response.data);
+        const res = await axios.get(`http://localhost:5000/api/learners/${learnerId}`);
+        setProfile(res.data);
+        setLoading(false);
       } catch (err) {
-        console.error("Error fetching courses", err);
+        console.error(err);
+        setError('Failed to load profile');
+        setLoading(false);
       }
     };
+    fetchProfile();
+  }, []);
 
-    fetchCourses();
-  }, [learnerId]);
+  if (loading) return <Spinner animation="border" className="mt-4" />;
+  if (error) return <Alert variant="danger">{error}</Alert>;
 
   return (
-    <div>
-      <h2>Your Dashboard</h2>
+    <div className="p-4">
+      <h2>Welcome, {profile.name}</h2>
+      <h5>Total XP: {profile.xp}</h5>
       <Row>
-        {courses.length === 0 ? (
-          <p>No courses enrolled yet.</p>
-        ) : (
-          courses.map((course) => (
+        {profile.enrolledCourses.map(course => {
+          const progress = ((course.completedTopics.length / course.totalTopics) * 100).toFixed(0);
+          return (
             <Col key={course._id} md={4} className="mb-3">
               <Card>
                 <Card.Body>
                   <Card.Title>{course.title}</Card.Title>
-                  <Card.Text>{course.description}</Card.Text>
-                  <Button href={`/course/${course._id}`} variant="primary">Go to Course</Button>
+                  <ProgressBar now={progress} label={`${progress}%`} className="mb-2" />
+                  <Button variant="success" onClick={() => navigate(`/course/${course._id}`)}>
+                    {progress >= 100 ? 'Review' : 'Continue Learning'}
+                  </Button>
                 </Card.Body>
               </Card>
             </Col>
-          ))
-        )}
+          );
+        })}
       </Row>
-      <ProgressTracker/>
     </div>
   );
 };

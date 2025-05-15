@@ -1,64 +1,50 @@
-import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import CourseCard from "../components/CourseCard";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Card, Button, Spinner, Alert, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const CreatorDashboard = () => {
-  const [profile, setProfile] = useState(null);
   const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  // const creatorId = 'creator123'; // Replace with actual logic
 
   useEffect(() => {
-    const fetchProfileAndCourses = async () => {
+    const fetchCourses = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const profileRes = await axios.get("http://localhost:5000/api/users/me", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setProfile(profileRes.data);
-
-        const coursesRes = await axios.get("http://localhost:5000/api/courses/creator", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setCourses(coursesRes.data);
+        const res = await axios.get(`http://localhost:5000/api/courses`);
+        setCourses(res.data);
+        setLoading(false);
       } catch (err) {
-        console.error("Error fetching dashboard data", err);
+        console.error(err);
+        setError('Failed to load courses');
+        setLoading(false);
       }
     };
-
-    fetchProfileAndCourses();
+    fetchCourses();
   }, []);
 
-  if (!profile) return <p>Loading dashboard...</p>;
+  if (loading) return <Spinner animation="border" className="mt-4" />;
+  if (error) return <Alert variant="danger">{error}</Alert>;
 
   return (
-    <Container className="mt-4">
-      <h2>Welcome, {profile.name}!</h2>
-      <Card className="p-3 my-3">
-        <h5>Email: {profile.email}</h5>
-        <p>Total XP: {profile.xp || 0}</p>
-        <p>Badges: {profile.badges?.join(", ") || "None"}</p>
-      </Card>
-
-      <div className="d-flex justify-content-between align-items-center">
-        <h4>Your Courses</h4>
-        <Link to="/upload-course">
-          <Button variant="success">Upload New Course</Button>
-        </Link>
-      </div>
-
+    <div className="p-4">
+      <h2>My Created Courses</h2>
       <Row>
-        {courses.length > 0 ? (
-          courses.map((course) => (
-            <Col key={course._id} md={4}>
-              <CourseCard course={course} />
-            </Col>
-          ))
-        ) : (
-          <p>You haven't created any courses yet.</p>
-        )}
+        {courses.map(course => (
+          <Col key={course._id} md={4} className="mb-3">
+            <Card>
+              <Card.Body>
+                <Card.Title>{course.title}</Card.Title>
+                <Card.Text>{course.description}</Card.Text>
+                <Button variant="primary" onClick={() => navigate(`/creator/course/${course._id}/edit`)}>Edit Course</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
       </Row>
-    </Container>
+    </div>
   );
 };
 

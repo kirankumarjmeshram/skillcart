@@ -66,6 +66,7 @@ const login = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        profileSetup: user.profileSetup,
         xp: user.xp,
         badges: user.badges,
         createdAt: user.createdAt,

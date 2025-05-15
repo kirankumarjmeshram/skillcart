@@ -1,26 +1,26 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
-import CreatorDashboard from './pages/CreatorDashboard';
-import LearnerDashboard from './pages/LearnerDashboard';
-// import CreatorProfile from "./pages/CreatorProfile";
-// import LearnerProfile from "./pages/LearnerProfile";
+import ProfileSetup from "./pages/ProfileSetup";
+// import CreatorDashboard from './pages/CreatorDashboard';
+// import LearnerDashboardWrapper from './pages/LearnerDashboardWrapper';
 import ProfilePage from "./pages/ProfilePage";
-
+import Home from "./pages/Home";
 import CourseUpload from "./pages/CourseUpload";
 import CourseDetail from "./pages/CourseDetail";
 import RoadmapPage from "./pages/RoadmapPage";
 import QuizPage from "./pages/QuizPage";
-
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+// import LearnerDashboard from "./pages/LearnerDashboard";
+// import CourseContent from "./components/CourseContent";
+// import CourseInfo from "./pages/CourseInfo";
 
 function App() {
   const userRole = localStorage.getItem('role');
@@ -31,33 +31,40 @@ function App() {
         <Navbar />
         <Container className="flex-grow-1 mt-4">
           <Routes>
-
-            {/* Redirect root to /dashboard */}
-            <Route path="/" element={<Navigate to="/dashboard" />} />
-
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
 
-            {/* Dashboard and Profile Route - dynamic based on role */}
+            {/* Dashboard and Profile */}
             <Route
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  {userRole === "creator" ? <CreatorDashboard /> : <LearnerDashboard />}
+                  {userRole === "creator" ? (
+                    <Home />
+                  ) : (
+                    <Home />
+                  )}
+                </ProtectedRoute>
+              }
+            />
+                        <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
                 </ProtectedRoute>
               }
             />
             <Route
-              path="/profile"
+              path="/creator/dashboard"
               element={
                 <ProtectedRoute>
-                  {/* {userRole === "creator" ? <CreatorProfile /> : <LearnerProfile />} */}
-                  <ProfilePage/>
+                  <Home/>
                 </ProtectedRoute>
               }
             />
 
-            {/* Creator-only course upload */}
             <Route
               path="/upload-course"
               element={
@@ -66,16 +73,22 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-            {/* Common learning routes */}
             <Route
               path="/course/:courseId"
               element={
-                <ProtectedRoute>
+                
                   <CourseDetail />
-                </ProtectedRoute>
               }
             />
+                        {/* <Route
+              path="/course/:courseId"
+              element={
+                <ProtectedRoute>
+                  <CourseInfo />
+                </ProtectedRoute>
+              }
+            /> */}
+            
             <Route
               path="/roadmap/:courseId"
               element={
@@ -84,6 +97,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* <Route path="/courses/:id/content" element={<CourseContent />} /> */}
+
             <Route
               path="/course/:courseId/topic/:topicId/quiz"
               element={
@@ -92,6 +107,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/learner/profile-setup" element={<ProfileSetup />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>

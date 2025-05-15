@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ProgressBar, Button, Card } from 'react-bootstrap';
-// import { useParams } from 'react-router-dom';
 
 const ProgressTracker = ({ courseId, learnerId }) => {
-//   const { topicId } = useParams(); 
   const [progress, setProgress] = useState({});
   const [xp, setXp] = useState(0);
 
@@ -13,7 +11,7 @@ const ProgressTracker = ({ courseId, learnerId }) => {
       try {
         const res = await axios.get(`http://localhost:5000/api/roadmap/${learnerId}/${courseId}`);
         setProgress(res.data.progress);
-        setXp(res.data.xp); // Assuming the response contains XP data
+        setXp(res.data.xp);
       } catch (err) {
         console.error("Error fetching progress", err);
       }
@@ -54,24 +52,24 @@ const ProgressTracker = ({ courseId, learnerId }) => {
             <div key={topicId} className="mb-2">
               <span>Topic {topicId} - </span>
               <Button
-                variant={progress[topicId] === 'Completed' ? 'success' : 'warning'}
+                variant={progress[topicId] === 'Completed' ? 'success' : 'outline-success'}
                 onClick={() => handleProgressChange(topicId, 'Completed')}
               >
-                Mark as Completed
+                Complete
               </Button>
               <Button
-                variant={progress[topicId] === 'In Progress' ? 'info' : 'secondary'}
+                variant={progress[topicId] === 'In Progress' ? 'info' : 'outline-info'}
                 onClick={() => handleProgressChange(topicId, 'In Progress')}
-                className="ml-2"
+                className="ms-2"
               >
-                Mark as In Progress
+                In Progress
               </Button>
               <Button
-                variant={progress[topicId] === 'Not Started' ? 'danger' : 'secondary'}
+                variant={progress[topicId] === 'Not Started' ? 'danger' : 'outline-danger'}
                 onClick={() => handleProgressChange(topicId, 'Not Started')}
-                className="ml-2"
+                className="ms-2"
               >
-                Mark as Not Started
+                Not Started
               </Button>
             </div>
           ))}

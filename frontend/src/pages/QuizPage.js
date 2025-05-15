@@ -8,12 +8,13 @@ const QuizPage = () => {
   const [quiz, setQuiz] = useState([]);
   const [answers, setAnswers] = useState({});
   const [score, setScore] = useState(null);
+  const learnerId = 'learner123'; // replace with real auth-based ID
 
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/courses/${courseId}`);
-        const topic = res.data.topics.find(t => t._id === topicId);
+        const topic = res.data.topics.find(t => t._id === topicId || t._id.$oid === topicId);
         const quizData = JSON.parse(topic.quiz || '[]');
         setQuiz(quizData);
       } catch (err) {
@@ -28,13 +29,24 @@ const QuizPage = () => {
     setAnswers({ ...answers, [qIndex]: option });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let correct = 0;
     quiz.forEach((q, index) => {
       if (answers[index] === q.answer) correct++;
     });
     setScore(correct);
+
+    try {
+      await axios.post(`http://localhost:5000/api/learners/${learnerId}/progress`, {
+        courseId,
+        topicId,
+        xpEarned: correct * 5,
+        completed: true
+      });
+    } catch (err) {
+      console.error("Error saving quiz progress", err);
+    }
   };
 
   if (!quiz.length) return <p>Loading quiz...</p>;
