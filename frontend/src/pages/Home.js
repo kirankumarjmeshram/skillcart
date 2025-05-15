@@ -20,7 +20,7 @@ const Home = () => {
               <Card.Body>
                 <Card.Title>{course.title}</Card.Title>
                 <Card.Text>{course.description}</Card.Text>
-                <Button as={Link} to={`/courses/${course._id}`}>View</Button>
+                <Button as={Link} to={`/course/${course._id}`}>View</Button>
               </Card.Body>
             </Card>
           </Col>

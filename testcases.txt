@@ -1,0 +1,61 @@
+{
+  "course_title": "Web Development Course",
+  "course_description": "Web development courses are designed to teach everything about creating Websites and web applications. They cover topics such as Internet Basics, HTML, CSS, JavaScript and more.",
+  "topics": [
+  {
+  "topic_title": "HTML",
+  "topic_description": "HTML is the standard markup language used to create and design web pages, defining their structure and layout.",
+  "video_links": [
+  "[HTML Tutorial for Beginners: HTML Crash Course](http://www.youtube.com/watch?v=qz0aGYrrlhU)",
+  "[HTML Tutorial for Beginners](http://www.youtube.com/watch?v=FQdaUv95mR8)"
+  ],
+  "blog_link": "[Website Development: The Complete Beginner's Guide - HubSpot Blog](https://blog.hubspot.com/website/website-development)",
+  "notes": "Refer to the provided blog link for notes.",
+  "quiz": "Quizzes can be found on platforms like Quizgecko and Quizizz. See the search results for direct links."
+  },
+  {
+  "topic_title": "CSS",
+  "topic_description": "CSS is a simply designed language intended to simplify the process of making web pages presentable.",
+  "video_links": [
+  "[Learn CSS in 20 Minutes](http://www.youtube.com/watch?v=1PnVor36_40)",
+  "[Learn CSS in 1 hour 🎨](http://www.youtube.com/watch?v=wRNinF7YQqQ)"
+  ],
+  "blog_link": "[15 of the Best Website Development Blogs to Read | Slickplan](https://slickplan.com/blog/15-website-dev-blogs-to-read)",
+  "notes": "Refer to the provided blog link for notes.",
+  "quiz": "Quizzes can be found on platforms like Quizgecko and Quizizz. See the search results for direct links."
+  },
+  {
+  "topic_title": "JavaScript",
+  "topic_description": "JavaScript is a scripting language used to provide a dynamic behavior to our website.",
+  "video_links": [
+  "[JavaScript Course for Beginners – Your First Step to Web Development](http://www.youtube.com/watch?v=W6NZfCO5SIk)",
+  "[JavaScript tutorial for beginners 🌐](http://www.youtube.com/watch?v=Ihy0QziLDf0)"
+  ],
+  "blog_link": "[Blog | web.dev](https://web.dev/blog)",
+  "notes": "Refer to the provided blog link for notes.",
+  "quiz": "Quizzes can be found on platforms like Quizgecko and Quizizz. See the search results for direct links."
+  },
+  {
+  "topic_title": "Backend Development",
+  "topic_description": "Backend development focuses on server-side programming, handling the logic, database interactions, and server management of web applications.",
+  "video_links": [
+  "[The Complete Backend Developer Roadmap](http://www.youtube.com/watch?v=OeEHJgzqS1k)",
+  "[Back-End Web Development (Tutorial for Beginners)](http://www.youtube.com/watch?v=1oTuMPIwHmk)"
+  ],
+  "blog_link": "[Best Web Development and Design Blogs - Brainvire](https://www.brainvire.com/blog/category/website-development/)",
+  "notes": "Refer to the provided blog link for notes.",
+  "quiz": "Quizzes can be found on platforms like Quizgecko and Quizizz. See the search results for direct links."
+  },
+  {
+  "topic_title": "Version Control",
+  "topic_description": "Version control helps manage changes to your code.",
+  "video_links": [
+  "[What Is Version Control? | Git Version Control | Version Control In Software Engineering|Simplilearn](http://www.youtube.com/watch?v=Yc8sCSeMhi4)",
+  "[Git Tutorial for Beginners - GitHub Version Control](http://www.youtube.com/watch?v=PWqS4NBhEY8)"
+  ],
+  "blog_link": "[Blog for Web Developers, Web Designers and Freelancers](https://studywebdevelopment.com/blog.html)",
+  "notes": "Refer to the provided blog link for notes.",
+  "quiz": "Quizzes can be found on platforms like Quizgecko and Quizizz. See the search results for direct links."
+  }
+  ]
+ }

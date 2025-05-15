@@ -17,18 +17,51 @@ const CourseUpload = () => {
     setTopics([...topics, {}]);
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const courseData = { title, description, topics };
+  //     await axios.post("http://localhost:5000/api/courses", courseData, {
+  //       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  //     });
+  //     alert("Course uploaded successfully");
+  //   } catch (err) {
+  //     alert("Error uploading course");
+  //   }
+  // };
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const courseData = { title, description, topics };
-      await axios.post("http://localhost:5000/api/courses", courseData, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
-      alert("Course uploaded successfully");
-    } catch (err) {
-      alert("Error uploading course");
-    }
+  e.preventDefault();
+  try {
+    const transformedTopics = topics.map((topic, index) => {
+  let parsedQuiz = [];
+  try {
+    parsedQuiz = topic.quiz ? JSON.parse(topic.quiz) : [];
+  } catch (e) {
+    throw new Error(`Quiz for topic ${index + 1} is not valid JSON.`);
+  }
+
+  return {
+    order: index + 1,
+    title: topic.title,
+    videos: topic.videos ? topic.videos.split(',').map(v => v.trim()) : [],
+    blogs: topic.blogs ? topic.blogs.split(',').map(b => b.trim()) : [],
+    notes: topic.notes || "",
+    quiz: parsedQuiz,
   };
+});
+    const courseData = { title, description, topics: transformedTopics };
+
+    await axios.post("http://localhost:5000/api/courses", courseData, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+
+    alert("Course uploaded successfully");
+  } catch (err) {
+    console.error(err);
+    alert("Error uploading course: " + (err.response?.data?.error || err.message));
+  }
+};
+
 
   return (
     <Container className="mt-4" style={{ maxWidth: 600 }}>
